@@ -78,9 +78,6 @@ class GeoJsonParser {
   /// default [Polygon] border stroke
   double? defaultPolygonBorderStroke;
 
-  /// default flag if [Polygon] is filled (default is true)
-  bool? defaultPolygonIsFilled;
-
   /// default [CircleMarker] border color
   Color? defaultCircleMarkerColor;
 
@@ -114,7 +111,6 @@ class GeoJsonParser {
     this.defaultPolygonBorderColor,
     this.defaultPolygonFillColor,
     this.defaultPolygonBorderStroke,
-    this.defaultPolygonIsFilled,
     this.defaultCircleMarkerColor,
     this.defaultCircleMarkerBorderColor,
     this.defaultCircleMarkerIsFilled,
@@ -178,11 +174,6 @@ class GeoJsonParser {
     defaultPolygonBorderColor = color;
   }
 
-  /// set default [Polygon] setting whether polygon is filled
-  set setDefaultPolygonIsFilled(bool filled) {
-    defaultPolygonIsFilled = filled;
-  }
-
   /// main GeoJson parsing function
   void parseGeoJson(Map<String, dynamic> g) {
     // set default values if they are not specified by constructor
@@ -191,16 +182,15 @@ class GeoJsonParser {
     polyLineCreationCallback ??= createDefaultPolyline;
     polygonCreationCallback ??= createDefaultPolygon;
     filterFunction ??= defaultFilterFunction;
-    defaultMarkerColor ??= Colors.red.withOpacity(0.8);
+    defaultMarkerColor ??= Colors.red.withValues(alpha: 0.8);
     defaultMarkerIcon ??= Icons.location_pin;
-    defaultPolylineColor ??= Colors.blue.withOpacity(0.8);
+    defaultPolylineColor ??= Colors.blue.withValues(alpha: 0.8);
     defaultPolylineStroke ??= 3.0;
-    defaultPolygonBorderColor ??= Colors.black.withOpacity(0.8);
-    defaultPolygonFillColor ??= Colors.black.withOpacity(0.1);
-    defaultPolygonIsFilled ??= true;
+    defaultPolygonBorderColor ??= Colors.black.withValues(alpha: 0.8);
+    defaultPolygonFillColor ??= Colors.black.withValues(alpha: 0.1);
     defaultPolygonBorderStroke ??= 1.0;
-    defaultCircleMarkerColor ??= Colors.blue.withOpacity(0.25);
-    defaultCircleMarkerBorderColor ??= Colors.black.withOpacity(0.8);
+    defaultCircleMarkerColor ??= Colors.blue.withValues(alpha: 0.25);
+    defaultCircleMarkerBorderColor ??= Colors.black.withValues(alpha: 0.8);
     defaultCircleMarkerIsFilled ??= true;
 
     // loop through the GeoJson Map and parse it
@@ -393,9 +383,8 @@ class GeoJsonParser {
     return Polygon(
       points: outerRing,
       holePointsList: holesList,
-      borderColor: defaultPolygonBorderColor!,
       color: defaultPolygonFillColor!,
-      isFilled: defaultPolygonIsFilled!,
+      borderColor: defaultPolygonBorderColor!,
       borderStrokeWidth: defaultPolygonBorderStroke!,
     );
   }
